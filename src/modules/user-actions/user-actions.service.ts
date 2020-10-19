@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, getRepository } from 'typeorm';
 import { UserActions } from './user-actions.entity';
+import { Actions } from '../actions/actions.entity';
 
 @Injectable()
 export class UserActionsService {
@@ -14,8 +15,20 @@ export class UserActionsService {
     return this.userActionsRepository.find();
   }
 
-  async findOne(userActionsId): Promise<UserActions> {
-    const action = await this.userActionsRepository.findOne(userActionsId);
+  async allActions() {
+    const action = await getRepository(UserActions)
+      .createQueryBuilder('user_actions')
+      .select('user_actions.id')
+      .addSelect('user_actions.user_id')
+      .addSelect('user_actions.session_id')
+      .addSelect('actions.display')
+      .leftJoin(
+        Actions,
+        'actions',
+        'actions.actions_id = user_actions.action_id',
+      )
+      .orderBy('user_actions.id')
+      .getRawMany();
     return action;
   }
 

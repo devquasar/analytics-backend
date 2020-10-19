@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, getRepository } from 'typeorm';
 import { Sessions } from './sessions.entity';
 
 @Injectable()
@@ -9,6 +9,13 @@ export class SessionsService {
     @InjectRepository(Sessions)
     private sessionsRepository: Repository<Sessions>,
   ) {}
+
+  async allSessions() {
+    const sessions = await getRepository(Sessions)
+      .createQueryBuilder('sessions')
+      .getRawMany();
+    return sessions;
+  }
 
   findAll(): Promise<Sessions[]> {
     return this.sessionsRepository.find();
