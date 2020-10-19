@@ -40,6 +40,18 @@ export class EventsGateway
     this.actionService.addUserAction(payload);
   }
 
+  @SubscribeMessage('getActionsData')
+  async getActionsData(client: Socket, payload: any): Promise<any> {
+    const data = await this.actionService.allActions();
+    client.emit('actionsDataToClient', data);
+  }
+
+  @SubscribeMessage('getSessionsData')
+  async getSessionsData(client: Socket, payload: any): Promise<any> {
+    const data = await this.sessionsService.allSessions();
+    client.emit('sessionsDataToClient', data);
+  }
+
   @SubscribeMessage('addSession')
   addSession(client: Socket, payload: any): void {
     payload.session_id = client.id;
