@@ -7,6 +7,6 @@ export class SeedActions1603279367149 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    // do nothing
+    await queryRunner.query(`DELETE FROM "sessions" WHERE true`);
   }
 }

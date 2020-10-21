@@ -20,4 +20,7 @@ export const CategorySeed = [
   {
     display: 'Visit page "Sessions Report"',
   },
+  {
+    display: 'Visit page "Average Report"',
+  },
 ];
