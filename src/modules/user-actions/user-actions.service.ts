@@ -31,6 +31,18 @@ export class UserActionsService {
       .getRawMany();
   }
 
+  async averagePages() {
+    return this.userActionsRepository
+      .createQueryBuilder('user_actions')
+      .select('session_id')
+      .addSelect('user_id')
+      .addSelect('count(distinct action_id)')
+      .where('action_id IN (:...ids)', { ids: [1, 2, 3, 4, 6, 7] })
+      .groupBy('session_id')
+      .addGroupBy('user_id')
+      .getRawMany();
+  }
+
   async addUserAction(userAction): Promise<UserActions> {
     const newActions = await this.userActionsRepository.save(userAction);
     return newActions;

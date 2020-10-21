@@ -46,6 +46,12 @@ export class EventsGateway
     client.emit('actionsDataToClient', data);
   }
 
+  @SubscribeMessage('getAverageData')
+  async getAverageData(client: Socket, payload: any): Promise<any> {
+    const data = await this.actionService.averagePages();
+    client.emit('averageDataToClient', data);
+  }
+
   @SubscribeMessage('getSessionsData')
   async getSessionsData(client: Socket, payload: any): Promise<any> {
     const data = await this.sessionsService.allSessions();
