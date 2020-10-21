@@ -22,12 +22,12 @@ export class EventsGateway
   ) {}
   @WebSocketServer() server: Server;
 
-  private logger: Logger = new Logger('AppGateway');
+  private logger: Logger = new Logger(this.constructor.name);
 
   @SubscribeMessage('addUser')
   async addUser(client: Socket, payload: any): Promise<any> {
     const { user_id } = payload;
-    let user = await this.usersService.findOne(user_id);
+    const user = await this.usersService.findOne(user_id);
     if (!user) {
       this.usersService.addUser(payload);
       this.logger.log('NEW USER, HURRAY!!');

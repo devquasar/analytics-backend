@@ -16,7 +16,7 @@ export class UserActionsService {
   }
 
   async allActions() {
-    const action = await getRepository(UserActions)
+    return this.userActionsRepository
       .createQueryBuilder('user_actions')
       .select('user_actions.id')
       .addSelect('user_actions.user_id')
@@ -29,7 +29,6 @@ export class UserActionsService {
       )
       .orderBy('user_actions.id')
       .getRawMany();
-    return action;
   }
 
   async addUserAction(userAction): Promise<UserActions> {
