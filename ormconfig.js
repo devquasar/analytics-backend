@@ -6,7 +6,7 @@ module.exports = {
     ],
     "migrationsTableName": "migration",
     "migrations": [
-      "dist/migration/*.ts"
+      "dist/migration/*.js"
     ],
     "cli": {
       "migrationsDir": "src/migration"
